@@ -4,42 +4,47 @@
  * @var \App\Model\Entity\Tecnico $tecnico
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $tecnico->id],
-                ['confirm' => __('Está seguro de eliminar el técnico con identificador # {0}?', $tecnico->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Tecnicos'), ['action' => 'listar']) ?></li>
-    </ul>
-</nav>
-<div class="tecnicos form large-9 medium-8 columns content">
-    <?= $this->Form->create($tecnico) ?>
-    <fieldset>
-        <legend><?= __('Edit Tecnico') ?></legend>
-        <?php
-            echo $this->Form->label('Jefe de Grupo');
-            echo $this->Form->select('id_grupo', $data);
-            echo $this->Form->control('nombre', ['label' => 'Nombre']);
-            echo $this->Form->control('apellidos', ['label' => 'Apellidos']);
-  //          echo $this->Form->control('tipo', ['label' => 'Tipo']);
-            echo $this->Form->label('Tipo');
-            echo $this->Form->select('tipo',[
-                '1' => 'Sistemas',
-                '2' => 'Desarrollador',
-                '3' => 'Diseñador'
-                ]
-            );
-
-            echo $this->Form->control('direccion',['label' => 'Dirección']);
-            echo $this->Form->control('email', ['label' => 'Correo electrónico']);
-       //     echo $this->Form->control('fecha_add', ['empty' => true]);
-       //     echo $this->Form->control('fecha_mod', ['empty' => true]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+<div class="content-box-large">
+    <p>
+        <button class="btn btn-primary">
+            <?= $this->Html->link(__('Ver'), ['action' => 'ver', $tecnico->id]) ?>
+        </button>
+        <button class="btn btn-primary"><?= $this->Form->postLink(__('Eliminar'), ['action' => 'eliminar', $tecnico->id], ['confirm' => __('Está seguro de eliminar el proyecto con identificador # {0}?', $tecnico->id)]) ?></button>
+        <button class="btn btn-primary"><?= $this->Html->link(__('Todos'), ['class' => 'text-white','action' => 'listar']) ?> </button>
+        <button class="btn btn-primary"><?= $this->Html->link(__('Crear'), ['action' => 'crear']) ?></button>
+    </p> 
+    <div class="panel-heading">
+        <div class="panel-title">Nuevo Proyecto</div>
+        <div class="panel-body">
+            <fieldset>
+                <div class="form-group">
+                    <?php 
+                        echo $this->Form->create($tecnico);
+                        echo '<div class="form-group col-md-10">';
+                        echo $this->Form->control('id_grupo', ['type' => 'select','label' => 'Grupo', 'options' => $dataA, 'class' => 'form-control']);
+                        echo '</div>'; 
+                        echo '<div class="form-group col-md-10">';
+                        echo $this->Form->control('nombre', ['type' => 'text','label' => 'Nombre','class' => 'form-control']);
+                        echo '</div>';     
+                        echo '<div class="form-group col-md-10">';
+                        echo $this->Form->control('apellidos', ['type' => 'text','label' => 'Apellidos','class' => 'form-control']);
+                        echo '</div>';
+                        echo '<div class="form-group col-md-10">';
+                        echo $this->Form->control('id_categoria', ['type' => 'select','label' => 'Categoría', 'options' => $dataB, 'class' => 'form-control']);
+                        echo '</div>'; 
+                        echo '<div class="form-group col-md-10">';
+                        echo $this->Form->control('direccion', ['type' => 'text','label' => 'Dirección','class' => 'form-control']);
+                        echo '</div>';
+                        echo '<div class="form-group col-md-10">';
+                        echo $this->Form->control('email', ['type' => 'text','label' => 'Correo electrónico','class' => 'form-control']);
+                        echo '</div>';
+                        echo '<div class="form-group col-md-10">'; 
+                        echo $this->Form->submit('Enviar',['class' => 'btn btn-primary form-group']);
+                        echo '</div>'; 
+                        echo $this->Form->end(); 
+                    ?>
+                </div>
+            </fieldset>
+        </div>
+    </div>
 </div>

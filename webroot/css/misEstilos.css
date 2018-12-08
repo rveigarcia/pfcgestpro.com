@@ -1,0 +1,100 @@
+
+button > a:link, button > a:hover,button > a:visited,button > a:active{
+  color: white;
+}
+
+.actions {
+    min-width: 20rem;   
+    max-width: 25rem;
+}
+
+input[type="radio"] {
+
+	margin-right: 1rem;
+} 
+label[for="estudio-1"], label[for="estudio-0"]{
+	margin-left: 1rem;
+}
+
+.miCabecera {
+    color: white;
+}
+/*
+input[type="date"] {
+		
+		height: 3rem;
+		flex: 50%;
+		width: 240px;
+		margin-bottom: 0.5rem;
+	}  */
+
+div.message {
+    text-align: center;
+/*    cursor: pointer;   */
+    display: block;
+    font-weight: normal;
+    padding: 0 1.5rem 0 1.5rem;
+    transition: height 300ms ease-out 0s;
+    background-color: #a0d3e8;
+    color: #626262;
+    top: 15px;
+    right: 15px;
+    z-index: 999;
+    overflow: hidden;
+    height: 50px;
+    line-height: 2.5em;
+    height: auto;
+    margin-right: 0.95rem;
+    margin-left: 0.95rem;
+    border-radius: 0.5rem 0.5rem;
+    margin-bottom: 0.3rem;
+}
+
+div.message.error {
+    background-color: #C3232D;
+    color: #FFF;
+    height: auto;
+    margin-bottom: 0.3rem;
+}
+
+div.message.error:before {
+    padding: 11px 16px 14px 7px;
+    color: #C3232D;
+    
+}
+
+div.message:before {
+    line-height: 0px;
+    font-size: 20px;
+    height: 12px;
+    width: 12px;
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+    position: relative;
+    left: -11px;
+    background-color: #FFF;
+    padding: 12px 14px 12px 10px;
+    color: #a0d3e8;
+}
+
+.invalid {
+    background-color: red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\ORM\TableRegistry;
 
 /**
  * Tecnicos Controller
@@ -21,8 +20,15 @@ class TecnicosController extends AppController
      */
     public function listar()
     {
-        $tecnicos = $this->paginate($this->Tecnicos);
 
+        $this->paginate = [
+            'sortWhitelist' => ['id','Grupos.alias','nombre','apellidos','Categorias.tipo', 'direccion', 'email'
+            ]
+        ];
+ //       $tecnicos = $this->paginate($this->Tecnicos);
+        $tecnicos = $this->Tecnicos->dameTecnicosConCategorias();
+        $this->set('tecnicos', $this->paginate($tecnicos));
+        $tecnicos -> toArray();
         $this->set(compact('tecnicos'));
     }
 
@@ -49,7 +55,9 @@ class TecnicosController extends AppController
      */
     public function crear()
     {
-        $data = $this->dameGrupos();
+        $dataA = $this->loadModel('Grupos')->dameGrupos();
+        $dataB = $this->loadModel('Categorias')->dameCategorias();
+
 
         $tecnico = $this->Tecnicos->newEntity();
         if ($this->request->is('post')) {
@@ -61,7 +69,7 @@ class TecnicosController extends AppController
             }
             $this->Flash->error(__('Algo ha fallado. Inténtelo de nuevo.'));
         }
-        $this->set(compact('tecnico','data'));
+        $this->set(compact('tecnico','dataA','dataB'));
     }
 
     /**
@@ -73,7 +81,8 @@ class TecnicosController extends AppController
      */
     public function editar($id = null)
     {
-        $data = $this->dameGrupos();
+        $dataA = $this->loadModel('Grupos')->dameGrupos();
+        $dataB = $this->loadModel('Categorias')->dameCategorias();
 
         $tecnico = $this->Tecnicos->get($id, [
             'contain' => []
@@ -87,7 +96,7 @@ class TecnicosController extends AppController
             }
             $this->Flash->error(__('Algo ha fallado. Inténtelo de nuevo.'));
         }
-        $this->set(compact('tecnico', 'data'));
+        $this->set(compact('tecnico', 'dataA', 'dataB'));
     }
 
     /**
@@ -108,20 +117,5 @@ class TecnicosController extends AppController
         }
 
         return $this->redirect(['action' => 'listar']);
-    }
-
-    public function dameGrupos(){
-
-        $grupos = TableRegistry::get('Grupos');
-
-        $query = $grupos->find('list',[
-
-            'keyField' => 'id', 
-            'valueField' => 'alias'
-        ]);
-
-        $data = $query -> toArray(); 
-
-        return $data;
     }
 }

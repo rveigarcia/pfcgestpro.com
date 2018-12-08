@@ -4,25 +4,35 @@
  * @var \App\Model\Entity\Grupo $grupo
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Acciones') ?></li>
-        <li><?= $this->Html->link(__('Ver todos'), ['action' => 'listar']) ?></li>
-    </ul>
-</nav>
-<div class="grupos form large-9 medium-8 columns content">
-    <?= $this->Form->create($grupo) ?>
-    <fieldset>
-        <legend><?= __('Crear nuevo Grupo de trabajo') ?></legend>
-        <?php
-            echo $this->Form->label('Jefe de Grupo');
-            echo $this->Form->select('id_jefe', $data);
-            echo $this->Form->control('alias', ['label' => 'Nombre grupo']);
-            echo $this->Form->control('seccion',  ['label' => 'Sección']);
-        //    echo $this->Form->control('fecha_add', ['empty' => true]);
-        //    echo $this->Form->control('fecha_mod', ['empty' => true]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+
+<div class="content-box-large">
+    <p>
+        <button class="btn btn-primary"><?= $this->Html->link(__('Ver todos'), ['action' => 'listar']) ?> </button>
+    </p>  
+    <div class="panel-heading">
+        <div class="panel-title">Nuevo Proyecto</div>
+        <div class="panel-body">
+            <fieldset>
+                <div class="form-group">
+                    <?php 
+                        echo $this->Form->create($grupo);
+                        echo '<div class="form-group col-md-10">';
+                        echo $this->Form->control('id_jefe', ['type' => 'select','label' => 'Jefe de Grupo', 'options' => $data, 'class' => 'form-control']);
+                        echo '</div>';
+                        echo '<div class="form-group col-md-10">';
+                        echo $this->Form->control('alias', ['type' => 'text', 'label' => 'Nombre grupo', 'class' => 'form-control']);
+                        echo '</div>';
+                        // Crear entidad sección y manejar la sección con un select 
+                        echo '<div class="form-group col-md-10">';
+                        echo $this->Form->control('seccion', ['type' => 'text', 'label' => 'Sección', 'class' => 'form-control']);
+                        echo '</div>';
+                        echo '<div class="form-group col-md-10">'; 
+                        echo $this->Form->submit('Enviar',['class' => 'btn btn-primary form-group']);
+                        echo '</div>'; 
+                        echo $this->Form->end(); 
+                    ?>
+                </div>
+            </fieldset>
+        </div>
+    </div>
 </div>

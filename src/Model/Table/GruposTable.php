@@ -35,10 +35,10 @@ class GruposTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Jefes',[
-            'className' => 'Jefes'])
+
+        $this->belongsTo('Jefes')     
             ->setForeignKey('id_jefe')
-            ->setProperty('coordina');   
+            ->setDependent(false);
     }
 
     /**
@@ -91,5 +91,25 @@ class GruposTable extends Table
             }
             return true;
         
+    }
+
+    public function dameGrupos(){
+
+        $query = $this->find('list',[
+
+            'keyField' => 'id', 
+            'valueField' => 'alias'
+        ]);
+
+        $data = $query -> toArray(); 
+
+        return $data;
+    }
+
+    public function dameGruposConJefes(){
+
+        $query = $this->find('all')->contain(['Jefes']);
+
+        return $query;
     }
 }

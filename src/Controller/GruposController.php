@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\ORM\TableRegistry;
+// use Cake\ORM\TableRegistry;
 
 /**
  * Grupos Controller
@@ -21,7 +21,12 @@ class GruposController extends AppController
      */
     public function listar()
     {
-        $grupos = $this->paginate($this->Grupos);
+     //   $grupos = $this->paginate($this->Grupos);
+        $grupos = $this->Grupos->dameGruposConJefes();
+        $this->set('grupos', $this->paginate($grupos));
+     //   $this->Paginator->options(['model' => 'Jefes']);
+
+        $grupos->toArray();
 
         $this->set(compact('grupos'));
     }
@@ -49,7 +54,7 @@ class GruposController extends AppController
      */
     public function crear()
     {
-        $data = $this->dameJefes();
+        $data = $this->loadModel('Jefes')->dameJefes();
 
         $grupo = $this->Grupos->newEntity();
         if ($this->request->is('post')) {
@@ -73,7 +78,7 @@ class GruposController extends AppController
      */
     public function editar($id = null)
     {
-        $data = $this->dameJefes();
+        $data = $this->loadModel('Jefes')->dameJefes();
 
         $grupo = $this->Grupos->get($id, [
             'contain' => []
@@ -85,7 +90,7 @@ class GruposController extends AppController
 
                 return $this->redirect(['action' => 'listar']);
             }
-            $this->Flash->error(__('Algo ha fallado. Inténtelo de nuevo'));
+            $this->Flash->error(__('Algo ha fallado. Inténtelo de nuevo.'));
         }
         $this->set(compact('grupo','data'));
     }
@@ -108,24 +113,5 @@ class GruposController extends AppController
         }
 
         return $this->redirect(['action' => 'listar']);
-    }
-
-    public function dameJefes(){
-
-        $jefes = TableRegistry::get('Jefes');
-
-        $query = $jefes->find('list',[
-
-            'keyField' => 'id', 
-            'valueField' => function ($jefe) {
-
-                $valor = $jefe->nombre . ' ' . $jefe->apellidos;
-                return $valor;
-            }
-        ]);
-
-        $data = $query -> toArray(); 
-
-        return $data;
     }
 }

@@ -35,10 +35,18 @@ class TecnicosTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Grupos',[
-            'className' => 'Grupos'])
+        $this->belongsTo('Grupos')
             ->setForeignKey('id_grupo')
-            ->setProperty('emplea');  
+      //      ->setProperty('emplea')
+            ->setJoinType('INNER')
+            ->setDependent(false);  
+
+        $this->belongsTo('Categorias')
+            ->setForeignKey('id_categoria')
+      //      ->setProperty('emplea')
+            ->setJoinType('INNER')
+            ->setDependent(false);      
+
     }
 
     /**
@@ -59,6 +67,11 @@ class TecnicosTable extends Table
             ->notEmpty('id_grupo');
 
         $validator
+            ->integer('id_categoria')
+            ->requirePresence('id_categoria', 'create')
+            ->notEmpty('id_categoria');    
+
+        $validator
             ->scalar('nombre')
             ->maxLength('nombre', 20)
             ->requirePresence('nombre', 'create')
@@ -69,12 +82,6 @@ class TecnicosTable extends Table
             ->maxLength('apellidos', 80)
             ->requirePresence('apellidos', 'create')
             ->notEmpty('apellidos');
-
-        $validator
-            ->scalar('tipo')
-            ->maxLength('tipo', 20)
-            ->requirePresence('tipo', 'create')
-            ->notEmpty('tipo');
 
         $validator
             ->scalar('direccion')
@@ -121,5 +128,50 @@ class TecnicosTable extends Table
                 $entity -> fecha_mod = date("Y-m-d H:i:s");
             }
             return true;
-    }    
+    }
+
+    public function dameTecnicos(){
+
+
+        $query = $this->find('list',[
+
+            'keyField' => 'id', 
+            'valueField' => function ($tecnico) {
+
+                $valor = $tecnico->nombre . ' ' . $tecnico->apellidos;
+                return $valor;
+            }
+        ]);
+
+        $data = $query -> toArray(); 
+
+        return $data;
+    }
+
+        public function dameTecnicosPosibles($idGrupo){
+
+                $query = $this->find('list',[
+
+            'keyField' => 'id', 
+            'valueField' => function ($tecnico) {
+
+                $valor = $tecnico->nombre . ' ' . $tecnico->apellidos;
+                return $valor;
+            }
+        ])->where(['id_grupo' => $idGrupo]);    
+
+      //  $query ->where(['id_grupo' => $idGrupo]);      
+        $data = $query -> toArray(); 
+
+        return $data;
+
+        }
+
+
+    public function dameTecnicosConCategorias(){
+
+        $query = $this->find('all')->contain(['Categorias', 'Grupos']);
+
+        return $query;
+    } 
 }

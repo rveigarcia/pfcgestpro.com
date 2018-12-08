@@ -30,9 +30,9 @@ class Tecnico extends Entity
      */
     protected $_accessible = [
         'id_grupo' => true,
+        'id_categoria' => true,
         'nombre' => true,
         'apellidos' => true,
-        'tipo' => true,
         'direccion' => true,
         'email' => true,
         'fecha_add' => true,

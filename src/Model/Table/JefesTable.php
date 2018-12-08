@@ -108,5 +108,22 @@ class JefesTable extends Table
             }
             return true;
         
-    }  
+    } 
+
+    public function dameJefes(){
+
+        $query = $this->find('list',[
+
+            'keyField' => 'id', 
+            'valueField' => function ($jefe) {
+
+                $valor = $jefe->nombre . ' ' . $jefe->apellidos;
+                return $valor;
+            }
+        ]);
+
+        $data = $query -> toArray(); 
+
+        return $data;
+    } 
 }
